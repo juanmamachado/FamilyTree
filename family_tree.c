@@ -39,12 +39,12 @@ ________________________________________________________________________________
 */
 // Road map computation, Bidirected graph
 // a) searching for the route using a proposed heuristic
-struct RoadMap addToRoadMap()
+struct RoadMap* addToRoadMap()
 {
 
 }
 // b) printing road map and the total cost
-struct RoadMap printRoadMap()
+struct RoadMap* printRoadMap()
 {
 
 }
