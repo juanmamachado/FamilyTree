@@ -26,9 +26,6 @@ ________________________________________________________________________________
     #include "small.h"
 #endif
 
-/* 
-CAN WE REDUCE .h 's TO NOT REPEAT THE SAME CODE?
-*/
 
 // Define as a command argument if we use large, medium or small, setting small as standard. Set root?
 
