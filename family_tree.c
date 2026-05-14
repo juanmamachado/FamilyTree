@@ -1,7 +1,14 @@
 /*
 ===================================================================================================================================================
-Fundamentals of Programming II: Trees and Graphs
-Team: Juanma Machado, Javier Olivé
+ * Universitat Autònoma de Barcelona - UAB
+ * 	Bachelor's Degree in Artificial Intelligence
+ *     	Fundamentals of Programming II
+ *         	Practical Project II - Family Tree
+ * 			Team:	
+ * 				Name          Surname          NIU
+ * 				--------------------------------------
+ * 				Javier        Olivé Padrós     1794767
+ * 				Juanma        Machado Millan   1797427
 ===================================================================================================================================================
 */
 
