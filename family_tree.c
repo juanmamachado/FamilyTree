@@ -13,9 +13,18 @@ ________________________________________________________________________________
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "small.h"
-#include "medium.h"
-#include "large.h"
+
+// Example: gcc family_tree.c -Dsmall -o exe
+// TODO is this the solution the guide suggests? Wouldn't it be better to decide at execution which option to choose?
+#ifdef small
+    #include "small.h"
+#elif defined(medium)
+    #include "medium.h"
+#elif defined(large)
+    #include "large.h"
+#else
+    #include "small.h"
+#endif
 
 /* 
 CAN WE REDUCE .h 's TO NOT REPEAT THE SAME CODE?
@@ -23,11 +32,43 @@ CAN WE REDUCE .h 's TO NOT REPEAT THE SAME CODE?
 
 // Define as a command argument if we use large, medium or small, setting small as standard. Set root?
 
-// Road map computation
-// Bidirected graph
+/*
+___________________________________________________________________________________________________________________________________________________
+World Journey Graph
+___________________________________________________________________________________________________________________________________________________
+*/
+// Road map computation, Bidirected graph
+// a) searching for the route using a proposed heuristic
+struct RoadMap addToRoadMap()
+{
+
+}
+// b) printing road map and the total cost
+struct RoadMap printRoadMap()
+{
+
+}
+
 
 // Route computation (cost, heuristics)
 
-// Family tree computation & print, BFS&DFS
+/*
+___________________________________________________________________________________________________________________________________________________
+Ancestor's Tree
+___________________________________________________________________________________________________________________________________________________
+*/
+// Family tree computation
+// a) DFS tree creation
+// b) BFS tree creation
+// c) printing the final ancestors’ tree
 
+/*
+___________________________________________________________________________________________________________________________________________________
+Main Implementation
+___________________________________________________________________________________________________________________________________________________
+*/
 // Main
+int main()
+{
+    return 0;
+}
