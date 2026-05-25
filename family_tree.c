@@ -82,16 +82,7 @@ void printRoadMap()
 // Reset roadmap, probably by freeing memory allocation
 void deleteAllRoadMap()
 {
-    struct RoadMap* current = roadStart;
-    while (current != NULL)
-    {
-        roadStart->next = roadStart->next->next;
-        free(current);
-        current->next = roadStart;
-    }
 
-    // roadEnd->next = NULL; TODO dont need because pointes to garbage but will be restted to null at the start of the next new program execution
-    // roadStart->next = NULL; TODO unnecessary: will already end up pointg where the last node pointed: NULL
 }
 
 // Searching for the route using a proposed heuristic
