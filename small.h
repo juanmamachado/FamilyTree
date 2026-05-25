@@ -40,7 +40,7 @@ struct CivilRegistry // Node parallel to the node of the tree, containing data a
     int father_parents_city_id;
 };
 
-struct CivilRegistry citiesInfo[NUMBER_CITIES] = // What is -1?
+struct CivilRegistry citiesInfo[NUMBER_CITIES] = // -1: the branch does not continue further
 {
     {0, "Barcelona", "Maria", "Jordi", 3, 5},
     {1, "Lisbon", "Madalena", "Lourenço", -1, -1},
