@@ -9,15 +9,6 @@
  * 				--------------------------------------
  * 				Javier        Olivé Padrós     1794767
  * 				Juanma        Machado Millan   1797427
- * Universitat Autònoma de Barcelona - UAB
- * 	Bachelor's Degree in Artificial Intelligence
- *     	Fundamentals of Programming II
- *         	Practical Project II - Family Tree
- * 			Team:	
- * 				Name          Surname          NIU
- * 				--------------------------------------
- * 				Javier        Olivé Padrós     1794767
- * 				Juanma        Machado Millan   1797427
 ===================================================================================================================================================
 */
 
@@ -31,7 +22,6 @@ ________________________________________________________________________________
 #include <string.h>
 
 // Example: gcc family_tree.c -DSMALL -o exe (uppercase is the convention)
-// TODO is this the solution the guide suggests? Wouldn't it be better to decide at execution which option to choose?
 #ifdef MEDIUM
     #include "medium.h"
 #elif defined(LARGE)
@@ -181,6 +171,12 @@ int main()
     // TODO so first a tree will be created
     // TODO when we execute BFS or DFS, each iteration should update the linked list, as it will allow us to know the cities to connect and calculate the shortest cost with RouteSearch
 
+<<<<<<< HEAD
+=======
+    struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
+    return 0;
+}
+>>>>>>> 2942c67948994aa86fab3792ba8c35f6447595fa
     struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
     return 0;
 }
