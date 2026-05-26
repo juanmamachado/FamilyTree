@@ -171,12 +171,14 @@ int main()
     // TODO so first a tree will be created
     // TODO when we execute BFS or DFS, each iteration should update the linked list, as it will allow us to know the cities to connect and calculate the shortest cost with RouteSearch
 
-<<<<<<< HEAD
-=======
+
+    // TODO to add need nodes to the travel linked list addToRoadMap, we need to follow the order of DFS or BFS
+    // TODO so first a tree will be created
+    // TODO when we execute BFS or DFS, each iteration should update the linked list, as it will allow us to know the cities to connect and calculate the shortest cost with RouteSearch
+
     struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
     return 0;
 }
->>>>>>> 2942c67948994aa86fab3792ba8c35f6447595fa
     struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
     return 0;
 }
