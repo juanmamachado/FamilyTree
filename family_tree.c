@@ -71,7 +71,6 @@ void addToRoadMap(struct RoadMap **roadEnd, int city_id, int total_cost)
     (*roadEnd)->next = newRoadNode;  // Make the current last node (where end now points) point to new
     *roadEnd = newRoadNode; // Make the end pointer point to the new node
     // printRoadMap(struct RoadMap *roadStart) -- Call printRoadMap() each time you update the list in order to check the progress
-    // TODO accumulates total cost to roadEnd->total_cost
 }
 
 // Printing road map and the total cost
@@ -90,14 +89,14 @@ void printRoadMap(struct RoadMap *roadStart)
 // Reset roadmap, probably by freeing memory allocation
 void deleteAllRoadMap(struct RoadMap *roadStart, struct RoadMap *roadEnd)
 {
-    struct RoadMap *current = roadStart;
+    struct RoadMap *current = *roadStart;
     while (current != NULL)
     {
         roadStart->next = roadStart->next->next;
         free(current);
         current->next = roadStart;
     }
-
+    *roadStart = NULL;
     // roadEnd->next = NULL; TODO dont need because pointes to garbage but will be restted to null at the start of the next new program execution
     // roadStart->next = NULL; TODO unnecessary: will already end up pointg where the last node pointed: NULL
 }
@@ -111,7 +110,6 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
     int partial_cost;
     int current_city_id = origin_city_id;
     int visited[NUMBER_CITIES] = {0}; // We create an array of X cities, and initialize to 0 to track when they have been visited to avoid the algorithm to enter loops between 2 cities
-    
     while (current_city_id != target_city_id)
     {
         if (adjacency_matrix[current_city_id][target_city_id] != 0) // First, check if there is a direct connection
@@ -121,25 +119,16 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
         }
         else // Find connection with the lowest cost through heuristics
         {
+            // Route computation (cost, heuristics), take into account visited must be 0
             int current_city_id = ???next create linkedlist? save the start from the new?;
             visited[current_city_id] = 1;
         }
         final_cost = final_cost + partial_cost;
         addToRoadMap(roadEnd, current_city_id, final_cost); 
     }
-
     printRoadMap(partialRoadStart);
     printf("%d\n", final_cost-initial_cost);
-    // return total_cost
     return final_cost;
-}
-
-// Route computation (cost, heuristics)
-something findMinRoute(origin_city_id, target_city_id)
-{
-    
-    // TODO Heuristic that returns the cost,
-    return "array of cities AND cost"
 }
 
 /*
