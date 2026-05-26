@@ -31,7 +31,6 @@ ________________________________________________________________________________
 #include <string.h>
 
 // Example: gcc family_tree.c -DSMALL -o exe (uppercase is the convention)
-// TODO is this the solution the guide suggests? Wouldn't it be better to decide at execution which option to choose?
 #ifdef MEDIUM
     #include "medium.h"
 #elif defined(LARGE)
@@ -64,34 +63,72 @@ void initRoadMap(int startCity, struct RoadMap** roadStart, struct RoadMap** roa
     *roadEnd = *roadStart; // Both start and end point initially to the same node
 }
 
-// Road map computation, Bidirected graph
-void addToRoadMap(struct RoadMap** roadEnd, int city_id, int total_cost)
+// Road map computation, Bidirected graph, linked list TODO ?
+void addToRoadMap(struct RoadMap **roadEnd, int city_id, int total_cost)
 {
-    struct RoadMap *newRoadNode = createRoadNode(city_id, total_cost);
-    (*roadEnd)->next = newRoadNode;  // Attach new node to current last node, we make the next from the node where *roadEnd points to point to newEoadNode
-    *roadEnd = newRoadNode;          // Move roadEnd forward to new last node
-
+    struct RoadMap *newRoadNode = createRoadNode(city_id, total_cost); // Create new road node
+    (*roadEnd)->next = newRoadNode;  // Make the current last node (where end now points) point to new
+    *roadEnd = newRoadNode; // Make the end pointer point to the new node
+    // printRoadMap(struct RoadMap *roadStart) -- Call printRoadMap() each time you update the list in order to check the progress
 }
 
 // Printing road map and the total cost
-void printRoadMap()
+void printRoadMap(struct RoadMap *roadStart)
 {
-
+    struct RoadMap* current = roadStart;
+    while (current->next != NULL)
+    {
+        printf("%s-", citiesInfo[current->city_id].city_name);
+        current = current->next;
+    }
+    // Last node printed without dash
+    printf("%s ", citiesInfo[current->city_id].city_name);
 }
 
 // Reset roadmap, probably by freeing memory allocation
-void deleteAllRoadMap()
+void deleteAllRoadMap(struct RoadMap *roadStart, struct RoadMap *roadEnd)
 {
-
+    struct RoadMap *current = *roadStart;
+    while (current != NULL)
+    {
+        roadStart->next = roadStart->next->next;
+        free(current);
+        current->next = roadStart;
+    }
+    *roadStart = NULL;
+    // roadEnd->next = NULL; TODO dont need because pointes to garbage but will be restted to null at the start of the next new program execution
+    // roadStart->next = NULL; TODO unnecessary: will already end up pointg where the last node pointed: NULL
 }
 
 // Searching for the route using a proposed heuristic
-int RouteSearch() // parameters: src, dest, roadmap (what are they?) ---- int because returns the TOAL COST
+int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd) // parameters: src, dest, roadmap (what are they?) ---- int because returns the TOAL COST
 {
-
+    struct RoadMap *partialRoadStart = *roadEnd; // Pointer to the last node, start of the subchain
+    int initial_cost = (*roadEnd)->total_cost;
+    int final_cost = initial_cost;
+    int partial_cost;
+    int current_city_id = origin_city_id;
+    int visited[NUMBER_CITIES] = {0}; // We create an array of X cities, and initialize to 0 to track when they have been visited to avoid the algorithm to enter loops between 2 cities
+    while (current_city_id != target_city_id)
+    {
+        if (adjacency_matrix[current_city_id][target_city_id] != 0) // First, check if there is a direct connection
+        {
+            partial_cost = adjacency_matrix[current_city_id][target_city_id];
+            current_city_id = target_city_id;
+        }
+        else // Find connection with the lowest cost through heuristics
+        {
+            // Route computation (cost, heuristics), take into account visited must be 0
+            int current_city_id = ???next create linkedlist? save the start from the new?;
+            visited[current_city_id] = 1;
+        }
+        final_cost = final_cost + partial_cost;
+        addToRoadMap(roadEnd, current_city_id, final_cost); 
+    }
+    printRoadMap(partialRoadStart);
+    printf("%d\n", final_cost-initial_cost);
+    return final_cost;
 }
-
-// Route computation (cost, heuristics)
 
 /*
 ___________________________________________________________________________________________________________________________________________________
@@ -138,6 +175,14 @@ int main()
     // from here, addToRoadMap only needs roadEnd
     // addToRoadMap(&roadEnd, city_id, total_cost);
 
+
+    // TODO to add need nodes to the travel linked list addToRoadMap, we need to follow the order of DFS or BFS
+    // TODO so first a tree will be created
+    // TODO when we execute BFS or DFS, each iteration should update the linked list, as it will allow us to know the cities to connect and calculate the shortest cost with RouteSearch
+
+    struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
+    return 0;
+}
     struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
     return 0;
 }
