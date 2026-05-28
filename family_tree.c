@@ -149,7 +149,6 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
                 *roadEnd = curr;
                 curr = nextNode;
             }
-
             current_city_id = target_city_id;  // tells while to exit
         }
     }
