@@ -110,8 +110,30 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
         else // Find connection with the lowest cost through heuristics
         {
             // Route computation (cost, heuristics), take into account visited must be 0
-            current_city_id = ???next create linkedlist? save the start from the new?;
-            visited[current_city_id] = 1;
+            // A* route search algorithm finds the complete optimal path
+            int leg_cost = 0;
+            struct RoadMap *subPath = aStarSearch(current_city_id, target_city_id, &leg_cost);
+            if (subPath == NULL) return final_cost;  // no path found
+
+            // subPath starts with current_city_id, which is already
+            // in the main road map → skip it and free its node
+            struct RoadMap *curr = subPath->next;
+            free(subPath);
+
+            // Append the remaining nodes (with globally accumulated cost)
+            while (curr != NULL)
+            {
+                struct RoadMap *nextNode = curr->next;
+                final_cost   = initial_cost + curr->total_cost;
+                curr->total_cost = final_cost;   // convert leg-relative → global
+                curr->next   = NULL;
+                (*roadEnd)->next = curr;
+                *roadEnd     = curr;
+                curr         = nextNode;
+            }
+
+            current_city_id = target_city_id;  // tells while to exit
+            continue;  // skip the single-step addToRoadMap below
         }
         final_cost = final_cost + partial_cost;
         addToRoadMap(roadEnd, current_city_id, final_cost); 
