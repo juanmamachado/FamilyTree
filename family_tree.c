@@ -79,19 +79,19 @@ void printRoadMap(struct RoadMap *roadStart)
 }
 
 // Reset roadmap, probably by freeing memory allocation
-void deleteAllRoadMap(struct RoadMap *roadStart, struct RoadMap *roadEnd)
+void deleteAllRoadMap(struct RoadMap **roadStart, struct RoadMap **roadEnd)
 {
-    struct RoadMap *current = roadStart;
+    struct RoadMap *current = *roadStart;
     while (current != NULL)
     {
-        roadStart->next = roadStart->next->next;
-        free(current);
-        current->next = roadStart;
+        struct RoadMap *nextNode = current->next;  // save next BEFORE freeing
+        free(current);                             
+        current = nextNode;                        
     }
     *roadStart = NULL;
-    // roadEnd->next = NULL; TODO dont need because pointes to garbage but will be restted to null at the start of the next new program execution
-    // roadStart->next = NULL; TODO unnecessary: will already end up pointg where the last node pointed: NULL
+    *roadEnd   = NULL;
 }
+
 
 // Searching for the route using a proposed heuristic
 int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd) // parameters: src, dest, roadmap (what are they?) ---- int because returns the TOAL COST
