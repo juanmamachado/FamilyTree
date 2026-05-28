@@ -78,6 +78,20 @@ void printRoadMap(struct RoadMap *roadStart)
     printf("Total cost: %d", current->total_cost);
 }
 
+//print partial road map and each route cost
+void printPartialRoadMap(struct RoadMap *partialRoadStart, int partialCost)
+{
+    struct RoadMap *current = partialRoadStart;
+
+    while (current->next != NULL)
+    {
+        printf("%s-", citiesInfo[current->city_id].city_name);
+        current = current->next;
+    }
+
+    printf("%s %d\n", citiesInfo[current->city_id].city_name, partialCost);
+}
+
 // Reset roadmap, probably by freeing memory allocation
 void deleteAllRoadMap(struct RoadMap **roadStart, struct RoadMap **roadEnd)
 {
@@ -140,8 +154,7 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
         final_cost = final_cost + partial_cost;
         addToRoadMap(roadEnd, current_city_id, final_cost); 
     }
-    printRoadMap(partialRoadStart);
-    printf("%d\n", final_cost-initial_cost);
+    printPartialRoadMap(partialRoadStart, final_cost - initial_cost);
     return final_cost;
 }
 
