@@ -67,13 +67,15 @@ void addToRoadMap(struct RoadMap **roadEnd, int city_id, int total_cost)
 void printRoadMap(struct RoadMap *roadStart)
 {
     struct RoadMap* current = roadStart;
+    printf("Total Road Map:\n");
     while (current->next != NULL)
     {
         printf("%s-", citiesInfo[current->city_id].city_name);
         current = current->next;
     }
     // Last node printed without dash
-    printf("%s ", citiesInfo[current->city_id].city_name);
+    printf("%s\n\n", citiesInfo[current->city_id].city_name);
+    printf("Total cost: %d", current->total_cost);
 }
 
 // Reset roadmap, probably by freeing memory allocation
