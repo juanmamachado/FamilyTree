@@ -178,7 +178,5 @@ int main()
 
     struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
     return 0;
-}
-    struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
-    return 0;
+
 }
