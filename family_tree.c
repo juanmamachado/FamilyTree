@@ -122,6 +122,7 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
         {
             partial_cost = adjacency_matrix[current_city_id][target_city_id];
             current_city_id = target_city_id;
+            final_cost = final_cost + partial_cost;
         }
         else // Find connection with the lowest cost through heuristics
         {
@@ -151,7 +152,6 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
             current_city_id = target_city_id;  // tells while to exit
             continue;  // skip the single-step addToRoadMap below
         }
-        final_cost = final_cost + partial_cost;
         addToRoadMap(roadEnd, current_city_id, final_cost); 
     }
     printPartialRoadMap(partialRoadStart, final_cost - initial_cost);
