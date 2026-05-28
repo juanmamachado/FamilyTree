@@ -79,7 +79,7 @@ void printRoadMap(struct RoadMap *roadStart)
 // Reset roadmap, probably by freeing memory allocation
 void deleteAllRoadMap(struct RoadMap *roadStart, struct RoadMap *roadEnd)
 {
-    struct RoadMap *current = *roadStart;
+    struct RoadMap *current = roadStart;
     while (current != NULL)
     {
         roadStart->next = roadStart->next->next;
