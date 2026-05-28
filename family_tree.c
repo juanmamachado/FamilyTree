@@ -110,7 +110,7 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
         else // Find connection with the lowest cost through heuristics
         {
             // Route computation (cost, heuristics), take into account visited must be 0
-            int current_city_id = ???next create linkedlist? save the start from the new?;
+            current_city_id = ???next create linkedlist? save the start from the new?;
             visited[current_city_id] = 1;
         }
         final_cost = final_cost + partial_cost;
