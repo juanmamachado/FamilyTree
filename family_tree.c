@@ -142,11 +142,11 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
             {
                 struct RoadMap *nextNode = curr->next;
                 final_cost   = initial_cost + curr->total_cost;
-                curr->total_cost = final_cost;   // convert leg-relative → global
+                curr->total_cost = final_cost;   // convert leg-relative to global
                 curr->next   = NULL;
                 (*roadEnd)->next = curr;
-                *roadEnd     = curr;
-                curr         = nextNode;
+                *roadEnd = curr;
+                curr = nextNode;
             }
 
             current_city_id = target_city_id;  // tells while to exit
