@@ -183,14 +183,16 @@ struct FamilyTreeNode* buildDFS(int city_id, struct RoadMap **roadEnd, int *curr
 
     // Mother's side (left part???)
     final cost = routeSearch(int currentCity, int mother_parents_cityid, struct RoadMap **roadEnd); // perque necessitem el final cost aqui?
+    // *currentCity = hauria de ser un pointer igual al mother_parents_city_id???
     newNode->mother_parents = buildDFS(mother_parents_cityid, struct RoadMap **roadEnd, int currentCity); //current city no hauria de ser pointer?
-
+                                                                                                          //perque si no tota l'estona es el mateix currentCity?
     // Father's side (right part???)
     final cost = routeSearch(int currentCity, int father_parents_cityid, struct RoadMap **roadEnd); // perque necessitem el final cost aqui?
     newNode->father_parents = buildDFS(father_parents_cityid, struct RoadMap **roadEnd, int currentCity); //current city no hauria de ser pointer?
 
     return Node;
 }
+
 // c) printing the final ancestors’ tree
 void printTree()
 {
