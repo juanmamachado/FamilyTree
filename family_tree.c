@@ -67,29 +67,45 @@ void addToRoadMap(struct RoadMap **roadEnd, int city_id, int total_cost)
 void printRoadMap(struct RoadMap *roadStart)
 {
     struct RoadMap* current = roadStart;
+    printf("Total Road Map:\n");
     while (current->next != NULL)
     {
         printf("%s-", citiesInfo[current->city_id].city_name);
         current = current->next;
     }
     // Last node printed without dash
-    printf("%s ", citiesInfo[current->city_id].city_name);
+    printf("%s\n\n", citiesInfo[current->city_id].city_name);
+    printf("Total cost: %d", current->total_cost);
+}
+
+//print partial road map and each route cost
+void printPartialRoadMap(struct RoadMap *partialRoadStart, int partialCost)
+{
+    struct RoadMap *current = partialRoadStart;
+
+    while (current->next != NULL)
+    {
+        printf("%s-", citiesInfo[current->city_id].city_name);
+        current = current->next;
+    }
+
+    printf("%s %d\n", citiesInfo[current->city_id].city_name, partialCost);
 }
 
 // Reset roadmap, probably by freeing memory allocation
-void deleteAllRoadMap(struct RoadMap **roadStart, struct RoadMap *roadEnd)
+void deleteAllRoadMap(struct RoadMap **roadStart, struct RoadMap **roadEnd)
 {
     struct RoadMap *current = *roadStart;
     while (current != NULL)
     {
-        struct RoadMap *next = current->next;
-        free(current);
-        current->next = roadStart;
+        struct RoadMap *nextNode = current->next;  // save next BEFORE freeing
+        free(current);                             
+        current = nextNode;                        
     }
     *roadStart = NULL;
-    // roadEnd->next = NULL; TODO dont need because pointes to garbage but will be restted to null at the start of the next new program execution
-    // roadStart->next = NULL; TODO unnecessary: will already end up pointg where the last node pointed: NULL
+    *roadEnd   = NULL;
 }
+
 
 // Searching for the route using a proposed heuristic
 int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd) // parameters: src, dest, roadmap (what are they?) ---- int because returns the TOAL COST
@@ -106,18 +122,37 @@ int routeSearch(int origin_city_id, int target_city_id, struct RoadMap** roadEnd
         {
             partial_cost = adjacency_matrix[current_city_id][target_city_id];
             current_city_id = target_city_id;
+            final_cost = final_cost + partial_cost;
+            addToRoadMap(roadEnd, current_city_id, final_cost);
         }
         else // Find connection with the lowest cost through heuristics
         {
             // Route computation (cost, heuristics), take into account visited must be 0
-            int current_city_id = ???next create linkedlist? save the start from the new?;
-            visited[current_city_id] = 1;
+            // A* route search algorithm finds the complete optimal path
+            int leg_cost = 0;
+            struct RoadMap *subPath = aStarSearch(current_city_id, target_city_id, &leg_cost);
+            if (subPath == NULL) return final_cost;  // no path found
+
+            // subPath starts with current_city_id, which is already
+            // in the main road map → skip it and free its node
+            struct RoadMap *curr = subPath->next;
+            free(subPath);
+
+            // Append the remaining nodes (with globally accumulated cost)
+            while (curr != NULL)
+            {
+                struct RoadMap *nextNode = curr->next;
+                final_cost   = initial_cost + curr->total_cost;
+                curr->total_cost = final_cost;   // convert leg-relative to global
+                curr->next   = NULL;
+                (*roadEnd)->next = curr;
+                *roadEnd = curr;
+                curr = nextNode;
+            }
+            current_city_id = target_city_id;  // tells while to exit
         }
-        final_cost = final_cost + partial_cost;
-        addToRoadMap(roadEnd, current_city_id, final_cost); 
     }
-    printRoadMap(partialRoadStart);
-    printf("%d\n", final_cost-initial_cost);
+    printPartialRoadMap(partialRoadStart, final_cost - initial_cost);
     return final_cost;
 }
 
@@ -133,19 +168,44 @@ struct FamilyTreeNode* buildBFS() //
 
 }
 // b) DFS tree creation
-struct FamilyTreeNode* buildDFS() // Returns root of the tree
+struct FamilyTreeNode* buildDFS(int city_id, struct RoadMap **roadEnd, int *currentCity) // Returns root of the tree
 {
+    // Base case: no more ancestors
+    if (city_id == -1) return NULL;
 
+    // Create the Node
+    struct FamilyTreeNode *newNode = malloc(sizeof(struct FamilyTreeNode));
+    newNode->city_id = city_id;
+    newNode->motherName = citiesInfo[city_id].mother_name;
+    newNode->fatherName = citiesInfo[city_id].father_name;
+    mother_parents_cityid = citiesInfo[city_id].mother_parents_city_id;
+    father_parents_cityid = citiesInfo[city_id].father_parents_city_id;
+
+    // Mother's side (left part???)
+    final cost = routeSearch(int currentCity, int mother_parents_cityid, struct RoadMap **roadEnd); // perque necessitem el final cost aqui?
+    // *currentCity = hauria de ser un pointer igual al mother_parents_city_id???
+    newNode->mother_parents = buildDFS(mother_parents_cityid, struct RoadMap **roadEnd, int currentCity); //current city no hauria de ser pointer?
+                                                                                                          //perque si no tota l'estona es el mateix currentCity?
+    // Father's side (right part???)
+    final cost = routeSearch(int currentCity, int father_parents_cityid, struct RoadMap **roadEnd); // perque necessitem el final cost aqui?
+    newNode->father_parents = buildDFS(father_parents_cityid, struct RoadMap **roadEnd, int currentCity); //current city no hauria de ser pointer?
+
+    return Node;
 }
+
 // c) printing the final ancestors’ tree
 void printTree()
 {
 
 } // TODO need to track depth in both methods
 
-void deleteAllTree()
+void deleteAllTree(struct FamilyTreeNode *node) // we have to pass the root node in main
 {
+    if (node == NULL) return;
 
+    deleteAllTree(node->mother_parents); // free left subtree ???
+    deleteAllTree(node->father_parents); // free right subtree ???
+    free(node); // then free parent
 }
 
 
@@ -178,7 +238,5 @@ int main()
 
     struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
     return 0;
-}
-    struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
-    return 0;
+
 }
