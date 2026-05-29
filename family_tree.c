@@ -168,9 +168,28 @@ struct FamilyTreeNode* buildBFS() // Returns root of the tree
 
 }
 // b) DFS tree creation
-struct FamilyTreeNode* buildDFS() // Returns root of the tree
+struct FamilyTreeNode* buildDFS(int city_id, struct RoadMap **roadEnd, int *currentCity) // Returns root of the tree
 {
+    // Base case: no more ancestors
+    if (city_id == -1) return NULL;
 
+    // Create the Node
+    struct FamilyTreeNode *newNode = malloc(sizeof(struct FamilyTreeNode));
+    newNode->city_id = city_id;
+    newNode->motherName = citiesInfo[city_id].mother_name;
+    newNode->fatherName = citiesInfo[city_id].father_name;
+    mother_parents_cityid = citiesInfo[city_id].mother_parents_city_id;
+    father_parents_cityid = citiesInfo[city_id].father_parents_city_id;
+
+    // Mother's side (left part???)
+    final cost = routeSearch(int currentCity, int mother_parents_cityid, struct RoadMap **roadEnd); // perque necessitem el final cost aqui?
+    newNode->mother_parents = buildDFS(mother_parents_cityid, struct RoadMap **roadEnd, int currentCity); //current city no hauria de ser pointer?
+
+    // Father's side (right part???)
+    final cost = routeSearch(int currentCity, int father_parents_cityid, struct RoadMap **roadEnd); // perque necessitem el final cost aqui?
+    newNode->father_parents = buildDFS(father_parents_cityid, struct RoadMap **roadEnd, int currentCity); //current city no hauria de ser pointer?
+
+    return Node;
 }
 // c) printing the final ancestors’ tree
 void printTree()
