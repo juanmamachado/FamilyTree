@@ -1,0 +1,5 @@
+desktop.ini
+*.so
+*.gdoc
+*.gsheet
+!Project_Report.gdoc

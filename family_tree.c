@@ -30,7 +30,7 @@ ________________________________________________________________________________
     #include "small.h" // Falls back to small.h whether DSMALL was specified or anything else than DMEDIUM and DLARGE
 #endif
 
-
+// TODO check adjacency lists
 /*
 ___________________________________________________________________________________________________________________________________________________
 World Journey Graph
@@ -77,12 +77,12 @@ void printRoadMap(struct RoadMap *roadStart)
 }
 
 // Reset roadmap, probably by freeing memory allocation
-void deleteAllRoadMap(struct RoadMap *roadStart, struct RoadMap *roadEnd)
+void deleteAllRoadMap(struct RoadMap **roadStart, struct RoadMap *roadEnd)
 {
     struct RoadMap *current = *roadStart;
     while (current != NULL)
     {
-        roadStart->next = roadStart->next->next;
+        struct RoadMap *next = current->next;
         free(current);
         current->next = roadStart;
     }
@@ -128,7 +128,7 @@ ________________________________________________________________________________
 */
 // Family tree computation
 // a) BFS tree creation
-struct FamilyTreeNode* buildBFS() // Returns root of the tree
+struct FamilyTreeNode* buildBFS() //
 {
 
 }
@@ -141,7 +141,7 @@ struct FamilyTreeNode* buildDFS() // Returns root of the tree
 void printTree()
 {
 
-} // TODO need to track depth in bothe methods
+} // TODO need to track depth in both methods
 
 void deleteAllTree()
 {
