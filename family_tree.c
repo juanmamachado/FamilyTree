@@ -199,9 +199,13 @@ void printTree()
 
 } // TODO need to track depth in bothe methods
 
-void deleteAllTree()
+void deleteAllTree(struct FamilyTreeNode *node) // we have to pass the root node in main
 {
+    if (node == NULL) return;
 
+    deleteAllTree(node->mother_parents); // free left subtree ???
+    deleteAllTree(node->father_parents); // free right subtree ???
+    free(node); // then free parent
 }
 
 
