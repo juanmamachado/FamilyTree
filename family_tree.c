@@ -282,5 +282,5 @@ int main()
 
     struct FamilyTreeNode *treeRoot = NULL; // Tree entry point
     return 0;
-
+    // printTree(treeRoot, 0);  // root starts at depth=0
 }
