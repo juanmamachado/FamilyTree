@@ -176,21 +176,22 @@ struct FamilyTreeNode* buildDFS(int city_id, struct RoadMap **roadEnd, int *curr
     // Create the Node
     struct FamilyTreeNode *newNode = malloc(sizeof(struct FamilyTreeNode));
     newNode->city_id = city_id;
-    newNode->motherName = citiesInfo[city_id].mother_name;
-    newNode->fatherName = citiesInfo[city_id].father_name;
-    mother_parents_cityid = citiesInfo[city_id].mother_parents_city_id;
-    father_parents_cityid = citiesInfo[city_id].father_parents_city_id;
+    strcpy(newNode->motherName, citiesInfo[city_id].mother_name);
+    strcpy(newNode->fatherName, citiesInfo[city_id].father_name);
+    int mother_parents_cityid = citiesInfo[city_id].mother_parents_city_id;
+    int father_parents_cityid = citiesInfo[city_id].father_parents_city_id;
 
     // Mother's side (left part???)
-    final cost = routeSearch(int currentCity, int mother_parents_cityid, struct RoadMap **roadEnd); // perque necessitem el final cost aqui?
-    // *currentCity = hauria de ser un pointer igual al mother_parents_city_id???
-    newNode->mother_parents = buildDFS(mother_parents_cityid, struct RoadMap **roadEnd, int currentCity); //current city no hauria de ser pointer?
-                                                                                                          //perque si no tota l'estona es el mateix currentCity?
+    int final cost = routeSearch(*currentCity, mother_parents_cityid, roadEnd); // perque necessitem el final cost aqui?
+    *currentCity = mother_parents_cityid;
+    newNode->mother_parents = buildDFS(mother_parents_cityid, roadEnd, currentCity); //current city no hauria de ser pointer?
+                                                                                     //perque si no tota l'estona es el mateix currentCity?
     // Father's side (right part???)
-    final cost = routeSearch(int currentCity, int father_parents_cityid, struct RoadMap **roadEnd); // perque necessitem el final cost aqui?
-    newNode->father_parents = buildDFS(father_parents_cityid, struct RoadMap **roadEnd, int currentCity); //current city no hauria de ser pointer?
+    int final cost = routeSearch(*currentCity, father_parents_cityid, roadEnd);
+    *currentCity = father_parents_cityid;
+    newNode->mother_parents = buildDFS(father_parents_cityid, roadEnd, currentCity);
 
-    return Node;
+    return newNode;
 }
 
 // c) printing the final ancestors’ tree
