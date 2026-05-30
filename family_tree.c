@@ -175,12 +175,47 @@ struct FamilyTreeNode* createTreeNode(int city_id)
     return node;
 }
 
-// a) BFS tree creation
-struct FamilyTreeNode* buildBFS() //
+// a) BFS tree creation (level by level)
+struct FamilyTreeNode* buildBFS(int startCity, struct RoadMap **roadEnd, int *currentCity)
 {
+    // Start with the root (1st level)
+    struct FamilyTreeNode *root = createTreeNode(startCity);
 
+    struct FamilyTreeNode *queue[NUMBER_CITIES];
+    int front = 0, rear = 0;
+
+    queue[rear++] = root; // first one of the queue is the root, queue[0] = root
+
+    while (front < rear)
+    {
+        struct FamilyTreeNode *current = queue[front++];
+
+        // Read parents city IDs from citiesInfo (replaces current->left / current->right)
+        int mCity = citiesInfo[current->city_id].mother_parents_city_id; //mother's parents city id 
+        int fCity = citiesInfo[current->city_id].father_parents_city_id; //father's parents city id
+
+        // Mother's side (left)
+        if (mCity != -1)
+        {
+            routeSearch(*currentCity, mCity, roadEnd);
+            *currentCity = mCity; //keep moving forward actualizing the pointer
+            current->mother_parents = createTreeNode(mCity);
+            queue[rear++] = current->mother_parents;
+        }
+
+        // Father's side (right)
+        if (fCity != -1)
+        {
+            routeSearch(*currentCity, fCity, roadEnd);
+            *currentCity = fCity; //keep moving forward actualizing the pointer
+            current->father_parents = createTreeNode(fCity);
+            queue[rear++] = current->father_parents;
+        }
+    }
+    return root;
 }
-// b) DFS tree creation
+
+// b) DFS tree creation (by branches)
 struct FamilyTreeNode* buildDFS(int city_id, struct RoadMap **roadEnd, int *currentCity) // Returns root of the tree
 {
     // Base case: no more ancestors
@@ -188,27 +223,26 @@ struct FamilyTreeNode* buildDFS(int city_id, struct RoadMap **roadEnd, int *curr
 
     // Create the Node
     struct FamilyTreeNode *newNode = createTreeNode(city_id);
-    int mother_parents_cityid = citiesInfo[city_id].mother_parents_city_id;
-    int father_parents_cityid = citiesInfo[city_id].father_parents_city_id;
+    int mCity = citiesInfo[city_id].mother_parents_city_id; //mother's parents city id 
+    int fCity = citiesInfo[city_id].father_parents_city_id; //father's parents city id 
 
     // Mother's side (left part???)
-    int final cost = routeSearch(*currentCity, mother_parents_cityid, roadEnd); // perque necessitem el final cost aqui?
-    *currentCity = mother_parents_cityid;
-    newNode->mother_parents = buildDFS(mother_parents_cityid, roadEnd, currentCity); //current city no hauria de ser pointer?
-                                                                                     //perque si no tota l'estona es el mateix currentCity?
+    int final cost = routeSearch(*currentCity, mCity, roadEnd); // perque necessitem el final cost aqui?
+    *currentCity = mCity;
+    newNode->mother_parents = buildDFS(mCity, roadEnd, currentCity); //current city no hauria de ser pointer?
+                                                                     //perque si no tota l'estona es el mateix currentCity?
     // Father's side (right part???)
-    int final cost = routeSearch(*currentCity, father_parents_cityid, roadEnd);
-    *currentCity = father_parents_cityid;
-    newNode->mother_parents = buildDFS(father_parents_cityid, roadEnd, currentCity);
+    int final cost = routeSearch(*currentCity, fCity, roadEnd);
+    *currentCity = fCity;
+    newNode->mother_parents = buildDFS(fCity, roadEnd, currentCity);
 
     return newNode;
 }
-
 // c) printing the final ancestors’ tree
 void printTree()
 {
 
-} // TODO need to track depth in both methods
+} // TODO need to track depth in bothe methods
 
 void deleteAllTree(struct FamilyTreeNode *node) // we have to pass the root node in main
 {
@@ -218,7 +252,6 @@ void deleteAllTree(struct FamilyTreeNode *node) // we have to pass the root node
     deleteAllTree(node->father_parents); // free right subtree ???
     free(node); // then free parent
 }
-
 
 /*
 ___________________________________________________________________________________________________________________________________________________
