@@ -162,6 +162,19 @@ Ancestor's Tree
 ___________________________________________________________________________________________________________________________________________________
 */
 // Family tree computation
+
+// Function to gather code and make this recurrent action more understandable inside other functions
+struct FamilyTreeNode* createTreeNode(int city_id)
+{
+    struct FamilyTreeNode *node = malloc(sizeof(struct FamilyTreeNode));
+    node->city_id = city_id;
+    strcpy(node->motherName, citiesInfo[city_id].mother_name);
+    strcpy(node->fatherName, citiesInfo[city_id].father_name);
+    node->mother_parents = NULL;
+    node->father_parents = NULL;
+    return node;
+}
+
 // a) BFS tree creation
 struct FamilyTreeNode* buildBFS() //
 {
@@ -174,10 +187,7 @@ struct FamilyTreeNode* buildDFS(int city_id, struct RoadMap **roadEnd, int *curr
     if (city_id == -1) return NULL;
 
     // Create the Node
-    struct FamilyTreeNode *newNode = malloc(sizeof(struct FamilyTreeNode));
-    newNode->city_id = city_id;
-    strcpy(newNode->motherName, citiesInfo[city_id].mother_name);
-    strcpy(newNode->fatherName, citiesInfo[city_id].father_name);
+    struct FamilyTreeNode *newNode = createTreeNode(city_id);
     int mother_parents_cityid = citiesInfo[city_id].mother_parents_city_id;
     int father_parents_cityid = citiesInfo[city_id].father_parents_city_id;
 
