@@ -239,10 +239,22 @@ struct FamilyTreeNode* buildDFS(int city_id, struct RoadMap **roadEnd, int *curr
     return newNode;
 }
 // c) printing the final ancestors’ tree
-void printTree()
+void printTree(struct FamilyTreeNode *node, int depth)
 {
+    if (node == NULL) return;
 
-} // TODO need to track depth in bothe methods
+    // Print the number of arrows for this depth
+    for (int i = 0; i < depth; i++)
+    {
+        printf("->"); // 1 more depth = 1 more arrow
+    }
+    // Print the parents names and city
+    printf("%s and %s (%s)\n", node->motherName, node->fatherName, citiesInfo[node->city_id].city_name);
+
+    // Recurse — same order as DFS: mother first, then father
+    printTree(node->mother_parents, depth++);
+    printTree(node->father_parents, depth++);
+}
 
 void deleteAllTree(struct FamilyTreeNode *node) // we have to pass the root node in main
 {
