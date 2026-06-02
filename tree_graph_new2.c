@@ -215,6 +215,7 @@ void deleteAllTree(struct FamilyTreeNode *node) // Recursively free nodes of the
     free(node);
 }
 
+// level by level, mother side before father side at each level
 void buildBFS(int startCity, struct RoadMap **roadEnd, int *currentCity)
 {
     treeNodes_count = 0;
@@ -271,6 +272,8 @@ void buildBFS(int startCity, struct RoadMap **roadEnd, int *currentCity)
     deleteAllTree(root);
 }
 
+
+// by branches, full mother branch first, then father branch
 void buildDFS(int city_id, int depth, struct RoadMap **roadEnd, int *currentCity)
 {
     if (city_id == -1) return;
