@@ -364,7 +364,7 @@ int main()
     int startCity = 0; // Barcelona
 
     printf("This is a %s case of the program\n", SIZE_NAME);
-    printf("Ancestor\'s tree:\n\n");
+    printf("Ancestor's tree:\n\n");
 
     /* ======================== BFS ======================== */
     struct RoadMap *roadStart = NULL;
